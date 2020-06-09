@@ -1,10 +1,9 @@
-# Capturing-Crypto-Currency-Data-in-Real-Time-form-Binance-
-Exchange Markets are highly volatile and many times there is a need to capture the data in real-time for analysis and trading purposes. Same goes for Crypto-graphic currency exchanges such as [Binance](https://www.binance.com/en). 
+# Capturing-Crypto-Currency-Data-in-Real-Time-from-Binance
+Exchange Markets are highly volatile and many times there is a need to capture the data in real-time for analysis and trading purposes. Same goes for cryptographic currency exchanges such as [Binance](https://www.binance.com/en). 
 I have here tried to create a process that does the job of capturing 1 minute real-time tick data of all the markets listed on Binance, obtaining the required datapoints and storing them in a database in a required comprehensive format. In addition to it, I have involved a process to create and mail the data-quality report (to some recepient). Finally, I have briefly described the procedure to deploy this python process on [Amazon AWS](https://aws.amazon.com/) EC2.
 
-
 ## Installation
-- Setup Python environment on your system. I have used [Python Version 3.8.3](https://www.python.org/downloads/) along wih [Anaconda Navigator](https://www.anaconda.com/products/individual). I have used Spyder as an IDE.
+- Setup Python environment on your system. I have used [Python Version 3.8.3](https://www.python.org/downloads/) along with [Anaconda Navigator](https://www.anaconda.com/products/individual). I have used Spyder as an IDE.
 - Once the setup is up and running, we need to register on Binance to get the [API keys](https://www.binance.com/en/support/articles/360002502072#:~:text=After%20logging%20into%20the%20Binance,to%20bind%20the%20secondary%20authentication.) for establishing connection.
 - Now we need to ensure certain packages are installed in Python. Below is a combined list of all the packages necessary for this project. Their usage will be clear in the subsequent steps.
   - python-binance
@@ -21,7 +20,7 @@ I have here tried to create a process that does the job of capturing 1 minute re
 ## Database Setup
 - I have used [MongoDB Atlas](https://www.mongodb.com/cloud/atlas)(free version) for storing the datapoints.
 - Create your account and then a new cluster.
-- Add a database user and the name used along with the password will be required in the URL to connect to the Mongo Client via your python code
+- Add a database user and the name used (along with the password) will be required in the URL to connect to the Mongo Client via your python code
 - Ensure that under Network Access Tab, your system's IP is listed. Or else use 0.0.0.0/0 for access from anywhere
 
 ## The Process
@@ -99,7 +98,7 @@ I have utilized my system's current date-time to check with per-minute dataflow.
 
 Once regulated, data can be inserted in the database. 
 
-However, I have further written process to resample the datapoints into specified intervals. For example, for a 5 min interval resampling, we would require to evaluate an equivalent entry based on the recent 5 entries of a symbol. For this new entry,
+I have further written a process to resample the datapoints into specified intervals. For example, for a 5 min interval resampling, we would require to evaluate an equivalent entry based on the recent 5 entries of a symbol. For this new entry,
 - Timestamp will be same as the start of 5 min interval (i.e. the timestamp of the least recent entry among the last 5 entries.)
 - Symbol will be same.
 - Open will be the open price at start of 5 min interval.(i.e. least recent entry's open price)
@@ -120,7 +119,7 @@ Finally, the report part. After a certain fixed interval, I need to get a report
 
 For this, I am maintaining a dictionary to keep count of entries stored per market-symbol and then I can evaluate other parameters.
 The mailing mechanism is based on SMTP. The report will be sent as an attatchment.
-Refer the module for implementation of the mail process.
+Refer the code for implementation of the mail process.
 
 ## AWS Deployment
 
@@ -128,9 +127,9 @@ I have deployed my entire project on Amazon AWS EC2.
 Following are the brief steps to do so: (I would recommend going through [Tutorials](https://aws.amazon.com/getting-started/tutorials/deploy-code-vm/) to understand the process.)
 1. Create an AWS account and setup an EC2 instance. 
 2. Choose the AMI you want depending on the OS. I have preferred Ubuntu. (Moreover if you go for free options, then they are limited)
-3. Run the instance on EC2 dashboard. (You will require PuTTY setup to deal with the keys.)
+3. Run the instance on EC2 dashboard. (You will require [PuTTY](https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html) setup to deal with the keys. (pscp.exe and PuTTY key generator))
 4. An important step here for ensuring mail mechanism works is to configure the security groups. You need to create a custom security group with outbound permissions enabled for SMTP and SMTPS.
-5. Thereafter, you need to upload your project files on the Ubuntu IP you chose
+5. Thereafter, you need to upload your project files on the Ubuntu IP you chose. You can do so with the following code.
 ```
 pscp -i <key_name>.ppk <filename(with extension)> ubuntu@<IP>:/home/ubuntu
 ```
@@ -161,7 +160,6 @@ load_dotenv()
 #for example
 mongoURL = os.getenv("MONGO_DB_URL")
 ```
-
 
 
 
