@@ -74,7 +74,7 @@ except pymongo.errors.ConnectionFailure as err:
     print(err)
 db = conne.database 
 ```
-(I have created a .env file to store the URL and other sensitive info that must not be mentioned explicitly in raw code)
+(I have created a .env file to store the URL and other sensitive info that must not be mentioned explicitly in raw code, format mentioned at the end)
 
 When all this is done, we would be able to recieve our data as a dictionary in msg.
 
@@ -142,3 +142,26 @@ ssh -i <key_name> ubuntu@<IP>
 **(Note that the commands may vary from system to system depending on the OS and AMI)**
 
 And with this, you have deployed your crypto-currency data capture project on AWS.
+
+## Extras
+
+- .env file format:
+```
+RECEIVER_ID=receiver@gmail.com
+SENDER_ID=sender@gmail.com
+MAIL_PSWD=********
+MONGO_DB_URL=......URL.....
+```
+Suppose following data is to be stored in .env file. Write in above format and save the file as .env (no name, only .env extension) in the same directory as your python code. In the code, you have to use - 
+```
+import os
+from dotenv import load_dotenv
+load_dotenv()
+
+#for example
+mongoURL = os.getenv("MONGO_DB_URL")
+```
+
+
+
+
