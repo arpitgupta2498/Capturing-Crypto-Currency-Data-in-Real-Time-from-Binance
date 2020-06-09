@@ -161,5 +161,7 @@ load_dotenv()
 mongoURL = os.getenv("MONGO_DB_URL")
 ```
 
+- Make sure you create and import your own Binance_API_key file as well as .env file.
+
 
 
